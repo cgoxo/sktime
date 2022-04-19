@@ -70,7 +70,7 @@ def demo_loading():
         print(testY.shape)
 
 
-def config_clusterer(clusterer: str, **kwargs):
+def config_kmeans(clusterer: str, **kwargs):
     """Config clusterer."""
     if clusterer == "kmeans":
         cls = TimeSeriesKMeans(**kwargs)
@@ -163,17 +163,24 @@ if __name__ == "__main__":
     else:
         parameters = {"window": 1.0, "epsilon": 0.05, "g": 0.05, "c": 1}
 
-    clst = config_clusterer(
-        averaging_method="mean",
-        clusterer=clusterer,
-        metric=distance,
-        distance_params=parameters,
-        n_clusters=len(set(train_Y)),
-        random_state=resample + 1,
-    )
+    if clusterer == "kmeans":
+        cls = TimeSeriesKMeans(
+            averaging_method="mean",
+            metric=distance,
+            distance_params=parameters,
+            n_clusters=len(set(train_Y)),
+            random_state=resample + 1,
+        )
+    else:
+        cls = TimeSeriesKMedoids(
+            metric=distance,
+            distance_params=parameters,
+            n_clusters=len(set(train_Y)),
+            random_state=resample + 1,
+        )
     run_clustering_experiment(
         train_X,
-        clst,
+        cls,
         results_path=results_dir,
         trainY=train_Y,
         testX=test_X,
