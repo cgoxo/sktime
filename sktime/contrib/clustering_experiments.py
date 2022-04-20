@@ -104,26 +104,26 @@ if __name__ == "__main__":
     """
     Example simple usage, with arguments input via script or hard coded for testing.
     """
-    clusterer = "kmedoids"
+    clusterer = "kmeans"
     chris_config = False  # This is so chris doesn't have to change config each time
     tune = False
 
-    #    if sys.argv.__len__() > 1:  # cluster run, this is fragile
-    #        print(sys.argv)
-    #        data_dir = sys.argv[1]
-    #        results_dir = sys.argv[2]
-    #        distance = sys.argv[3]
-    #        dataset = sys.argv[4]
-    #        resample = int(sys.argv[5]) - 1
-    #        tf = True
-    if sys.argv.__len__() > 1:  # kraken run, this is fragile
+    if sys.argv.__len__() > 1:  # cluster run, this is fragile
         print(sys.argv)
-        data_dir = "/home/ajb/data/Univariate_ts/"
-        results_dir = "/home/ajb/results/kmedoids/"
-        dataset = sys.argv[1]
-        resample = int(sys.argv[2]) - 1
-        tf = True
+        data_dir = sys.argv[1]
+        results_dir = sys.argv[2]
         distance = sys.argv[3]
+        dataset = sys.argv[4]
+        resample = int(sys.argv[5]) - 1
+        tf = True
+    #    if sys.argv.__len__() > 1:  # kraken run, this is fragile
+    #        print(sys.argv)
+    #        data_dir = "/home/ajb/data/Univariate_ts/"
+    #        results_dir = "/home/ajb/results/kmedoids/"
+    #        dataset = sys.argv[1]
+    #        resample = int(sys.argv[2]) - 1
+    #        tf = True
+    #        distance = sys.argv[3]
     elif chris_config is True:
         path = "/home/chris/Documents/masters-results/"
         data_dir = os.path.abspath(f"{path}/datasets/")
@@ -165,7 +165,7 @@ if __name__ == "__main__":
 
     if clusterer == "kmeans":
         cls = TimeSeriesKMeans(
-            averaging_method="mean",
+            averaging_method="dba",
             metric=distance,
             distance_params=parameters,
             n_clusters=len(set(train_Y)),
