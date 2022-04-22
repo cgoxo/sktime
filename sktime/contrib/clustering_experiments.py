@@ -101,7 +101,7 @@ if __name__ == "__main__":
     """
     Example simple usage, with arguments input via script or hard coded for testing.
     """
-    clusterer = "kmeans"
+    clusterer = "kmedoids"
     chris_config = False  # This is so chris doesn't have to change config each time
     tune = False
 
@@ -131,12 +131,13 @@ if __name__ == "__main__":
         distance = "ddtw"
     else:  # Local run
         print(" Local Run")
-        dataset = "UnitTest"
-        data_dir = f"../datasets/data/"
+        dataset = "ElectricDevices"
+        data_dir = f"C:/Temp/"
+        # data_dir = f"../datasets/data/"
         results_dir = "./temp"
         resample = 0
         tf = True
-        distance = "dtw"
+        distance = "wdtw"
     train_X, train_Y = load_ts(
         f"{data_dir}/{dataset}/{dataset}_TRAIN.ts", return_data_type="numpy2d"
     )
