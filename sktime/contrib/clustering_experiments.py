@@ -101,10 +101,7 @@ if __name__ == "__main__":
     """
     Example simple usage, with arguments input via script or hard coded for testing.
     """
-    """
-    Example simple usage, with arguments input via script or hard coded for testing.
-    """
-    clusterer = "kmedoids"
+    clusterer = "kmeans"
     chris_config = False  # This is so chris doesn't have to change config each time
     tune = False
 
@@ -119,7 +116,7 @@ if __name__ == "__main__":
     if sys.argv.__len__() > 1:  # kraken run, this is fragile
         print(sys.argv)
         data_dir = "/home/ajb/data/Univariate_ts/"
-        results_dir = "/home/ajb/results/kmedoids/"
+        results_dir = "/home/ajb/results/kmeans/"
         dataset = sys.argv[1]
         resample = int(sys.argv[2]) - 1
         tf = True
@@ -139,7 +136,7 @@ if __name__ == "__main__":
         results_dir = "./temp"
         resample = 0
         tf = True
-        distance = "edr"
+        distance = "dtw"
     train_X, train_Y = load_ts(
         f"{data_dir}/{dataset}/{dataset}_TRAIN.ts", return_data_type="numpy2d"
     )
@@ -158,7 +155,12 @@ if __name__ == "__main__":
         name = clusterer + "-" + distance + "-tuned"
     else:
         name = clusterer + "-" + distance
-    if distance == "wdtw" or distance == "dwdtw":
+    if (
+        distance == "wdtw"
+        or distance == "dwdtw"
+        or distance == "dtw"
+        or distance == "ddtw"
+    ):
         parameters = {"window": 0.2, "epsilon": 0.05, "g": 0.05, "c": 1}
     else:
         parameters = {"window": 1.0, "epsilon": 0.05, "g": 0.05, "c": 1}
